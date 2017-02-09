@@ -54,6 +54,7 @@
 
 	aliases {
 		serial0 = &uart0;
+		spi0 = &spi0;
 	};
 
 	chosen {
@@ -79,6 +80,19 @@
 		regulator-max-microvolt = <5000000>;
 		regulator-always-on;
 	};
+};
+
+&pio {
+	spi0_pins: pinctrl {
+		pins = "PC0", "PC1", "PC2", "PC23";
+		drive-strength = <10>;
+		bias-disable;
+	};
+};
+
+&spi0 {
+	pinctrl-0 = <&spi0_pins>;
+	status = "okay";
 };
 
 &ahci {
