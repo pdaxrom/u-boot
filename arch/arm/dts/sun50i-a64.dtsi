@@ -682,5 +682,13 @@
 			phy-names = "usb";
 			status = "enabled";
 		};
+
+		spi0: spi@01c68000 {
+			compatible = "allwinner,sun50i-a64-spi";
+			reg = <0x01c68000 0x1000>;
+			status = "disabled";
+			#address-cells = <1>;
+			#size-cells = <0>;
+		};
 	};
 };

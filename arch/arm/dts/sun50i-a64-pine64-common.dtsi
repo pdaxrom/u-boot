@@ -47,6 +47,7 @@
 	aliases {
 		serial0 = &uart0;
 		ethernet0 = &emac;
+		spi0 = &spi0;
 	};
 
 	soc {
@@ -57,6 +58,19 @@
 			regulator-max-microvolt = <3300000>;
 		};
 	};
+};
+
+&pio {
+	spi0_pins: pinctrl {
+		pins = "PC0", "PC1", "PC2", "PC3";
+		drive-strength = <10>;
+		bias-disabled;
+	};
+};
+
+&spi0 {
+	pinctrl-0 = <&spi0_pins>;
+	status = "okay";
 };
 
 &mmc0 {
