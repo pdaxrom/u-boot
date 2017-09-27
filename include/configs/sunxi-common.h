@@ -141,10 +141,19 @@
 /* mmc config */
 #ifdef CONFIG_MMC
 #define CONFIG_MMC_SUNXI_SLOT		0
-#define CONFIG_ENV_IS_IN_MMC
 #define CONFIG_SYS_MMC_ENV_DEV		0	/* first detected MMC controller */
 #define CONFIG_SYS_MMC_MAX_DEVICE	4
 #endif
+
+#if defined(CONFIG_SPL_SPI_SUNXI)
+#define CONFIG_ENV_IS_IN_SPI_FLASH
+#define CONFIG_ENV_OFFSET		(576 << 10) /* 512 KiB */
+#else
+#define CONFIG_ENV_IS_IN_MMC
+#define CONFIG_ENV_OFFSET		(544 << 10) /* (8 + 24 + 512) KiB */
+#endif
+#define CONFIG_ENV_SECT_SIZE		(128 << 10) /* 128 KiB */
+#define CONFIG_ENV_SIZE			CONFIG_ENV_SECT_SIZE
 
 /* 64MB of malloc() pool */
 #define CONFIG_SYS_MALLOC_LEN		(CONFIG_ENV_SIZE + (64 << 20))
@@ -172,8 +181,6 @@
 
 #define CONFIG_SYS_MONITOR_LEN		(768 << 10)	/* 768 KiB */
 
-#define CONFIG_ENV_OFFSET		(544 << 10) /* (8 + 24 + 512) KiB */
-#define CONFIG_ENV_SIZE			(128 << 10)	/* 128 KiB */
 
 #define CONFIG_FAT_WRITE	/* enable write access */
 
@@ -498,5 +505,23 @@ extern int soft_i2c_gpio_scl;
 #else /* ifndef CONFIG_SPL_BUILD */
 #define CONFIG_EXTRA_ENV_SETTINGS
 #endif
+
+#define MTDIDS_DEFAULT			"nor0=spidev0.0"
+#define MTDPARTS_DEFAULT		"mtdparts=spidev0.0:" \
+					"576k(u-boot)," \
+					"128k(u-boot-env)," \
+					"5120k(kernel)," \
+					"5120k(initrd)," \
+					"64k(script)," \
+					"-(rootfs)"
+
+/*
+ * File system
+ */
+#define CONFIG_RBTREE
+#define CONFIG_MTD_DEVICE               /* needed for mtdparts commands */
+#define CONFIG_MTD_PARTITIONS
+#define CONFIG_CMD_MTDPARTS
+#define CONFIG_LZO
 
 #endif /* _SUNXI_COMMON_CONFIG_H */
