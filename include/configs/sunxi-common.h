@@ -147,7 +147,7 @@
 
 #if defined(CONFIG_SPL_SPI_SUNXI)
 #define CONFIG_ENV_IS_IN_SPI_FLASH
-#define CONFIG_ENV_OFFSET		(576 << 10) /* 512 KiB */
+#define CONFIG_ENV_OFFSET		(640 << 10) /* 640 KiB */
 #else
 #define CONFIG_ENV_IS_IN_MMC
 #define CONFIG_ENV_OFFSET		(544 << 10) /* (8 + 24 + 512) KiB */
@@ -506,18 +506,16 @@ extern int soft_i2c_gpio_scl;
 #define CONFIG_EXTRA_ENV_SETTINGS
 #endif
 
-#define MTDIDS_DEFAULT			"nor0=spidev0.0"
-#define MTDPARTS_DEFAULT		"mtdparts=spidev0.0:" \
-					"576k(u-boot)," \
+#define MTDIDS_DEFAULT			"nor0=spi-flash0.0"
+#define MTDPARTS_DEFAULT		"mtdparts=spi-flash0.0:" \
+					"640k(u-boot)," \
 					"128k(u-boot-env)," \
-					"5120k(kernel)," \
-					"5120k(initrd)," \
-					"64k(script)," \
 					"-(rootfs)"
 
 /*
  * File system
  */
+#define CONFIG_CMD_UBIFS
 #define CONFIG_RBTREE
 #define CONFIG_MTD_DEVICE               /* needed for mtdparts commands */
 #define CONFIG_MTD_PARTITIONS
